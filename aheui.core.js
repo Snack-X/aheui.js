@@ -46,11 +46,10 @@ function _insert_to_store(value) {
 
 function _get_from_store() {
 	if(_store_now == "ㅇ") {
-		return _store[_store_now][0].shift();
+		return _store[_store_now].shift();
 	}
 	else {
-		var tmp_s = _store[_store_now];
-		return tmp_s[tmp_s.length - 1].pop();
+		return _store[_store_now].pop();
 	}
 }
 
@@ -61,54 +60,80 @@ function _step(before_step, after_step) {
 
 	var ch = _code[_y][_x];
 	var syl = _han_disassemble(ch);
+	var force_return = false;
 
+	// 올바른 글자가 아닐 경우
 	if(syl === false) {
 		_move_cursor();
-
 		if(typeof after_step == "function") after_step();
-
 		return;
 	}
 
-	switch(syl.cho) {
-		case "ㅇ": break;
-		case "ㅎ": _status = false; break;
-		case "ㅁ":
-			var v = _select_from_store();
+	// ㅎ = 끝냄
+	if(syl.cho == "ㅎ") {
+		_status = false;
+	}
 
-			if(syl.jong == "ㅇ") {
-				_write(v);
-			}
-			else if(syl.jong == "ㅎ") {
-				_write("".fromCharCode(v));
-			}
+	// 뽑아내는 명령일 때 저장 공간에 값이 모자라는지 체크 후 모자라면 반대 방향으로
+	if("ㄷㄸㅌㄴㄹㅈ".split("").indexOf(syl.cho) >= 0) {
+		// 저장 공간에 값이 두 개 필요함
+		if(_store[_store_now].length < 2) force_return = true;
+	}
+	else if("ㅁㅊ".split("").indexOf(syl.cho) >= 0) {
+		// 저장 공간에 값이 한 개 필요함
+		if(_store[_store_now].length < 1) force_return = true;
+	}
 
-			break;
-		case "ㅂ":
-			var jong_v = _jong.indexOf(syl.jong);
-			var ins_v = _jongval[jong_v];
+	// ㅁ = 뽑기
+	if(syl.cho == "ㅁ") {
+		var v = _get_from_store();
 
-			if(syl.jong == "ㅇ") {
-				ins_v = parseInt(_read(), 10);
-			}
-			else if(syl.jong == "ㅎ") {
-				ins_v = _read().charCodeAt(0);
-			}
+		if(syl.jong == "ㅇ") {
+			_write(v);
+		}
+		else if(syl.jong == "ㅎ") {
+			_write("".fromCharCode(v));
+		}
+	}
+	// ㅂ = 집어넣기
+	else if(syl.cho == "ㅂ") {
+		var jong_v = _jong.indexOf(syl.jong);
+		var ins_v = _jongval[jong_v];
 
-			_insert_to_store(ins_v);
+		if(syl.jong == "ㅇ") {
+			ins_v = parseInt(_read(), 10);
+		}
+		else if(syl.jong == "ㅎ") {
+			ins_v = _read().charCodeAt(0);
+		}
 
-			break;
-		case "ㅃ":
-			var tmp_s = _store[_store_now];
+		_insert_to_store(ins_v);
+	}
+	// ㅃ = 중복
+	else if(syl.cho == "ㅃ") {
+		var tmp_s = _store[_store_now];
 
-			if(_store_now == "ㅇ") {
-				_store[_store_now].unshift(tmp_s[0]);
-			}
-			else {
-				_store[_store_now].push(tmp_s[tmp_s.length - 1]);
-			}
-
-			break;
+		if(_store_now == "ㅇ") {
+			_store[_store_now].unshift(tmp_s[0]);
+		}
+		else {
+			_store[_store_now].push(tmp_s[tmp_s.length - 1]);
+		}
+	}
+	// ㄷ = 덧셈
+	// ㄸ = 곱셈
+	// ㅌ = 뺄셈
+	// ㄴ = 나눗셈
+	// ㄹ = 나머지
+	else if("ㄷㄸㅌㄴㄹ".split("").indexOf(syl.cho) >= 0) {
+		var v1 = _get_from_store(), v2 = _get_from_store();
+		switch(syl.cho) {
+			case "ㄷ": _insert_to_store(v1 + v2); break;
+			case "ㄸ": _insert_to_store(v1 * v2); break;
+			case "ㅌ": _insert_to_store(v2 - v1); break;
+			case "ㄴ": _insert_to_store(Math.floor(v2 / v1)); break;
+			case "ㄹ": _insert_to_store(v2 % v1); break;
+		}
 	}
 
 	switch(syl.jung) {

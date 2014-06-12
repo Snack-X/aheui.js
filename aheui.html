@@ -4,38 +4,41 @@
 <meta charset="UTF-8">
 <title>Aheui.JS</title>
 <style>
-.code {
+.code, .store {
 	border-spacing: 1px;
 	border-collapse: collapse;
 }
-.code tr { height: 25px; }
-.code tr td {
-	width: 23px;
+.code tr, .store tr { height: 25px; }
+.code tr td, .store tr td {
 	outline: 1px solid #aaa;
 	text-align: center;
 	vertical-align: middle;
 }
+.code tr td { width: 23px; }
+.store tr td { padding: 0 5px; }
 
-.code tr td.active {
+.code tr td.active, .store tr td.active {
 	background: #ffaaaa;
 }
 </style>
 <script src="http://code.jquery.com/jquery.js"></script>
+<script src="aheui.core.js"></script>
+<script src="aheui.util.js"></script>
 <script src="aheui.js"></script>
 <script>
 
 $(function() {
 
-var code = "아밯빠발타불ㅇ만든사람스낵\n뫃어어차뿌텨ㅇㅇ알오티십삼\n오북떠벎벍뫃봌토범더벌뿌뚜\n뿌다쟈우차빠밞밞따발다발두\n요빠여어밗우더범더벎차뿌져\n뜌벅떠불떠유뱛유땨뗘벅밞붊\n요토여두여차뿌져더벓더벓떠\n븀밞뵶불뵮유뵳야뚜발타자우\n요뽀여두여아여밣여뚜처붊여\n탸초주져뵮뻐어파여더범더밣\n요어야투야볆차빠밣밣따박뚜\n토벓터벎유오처우여뚜져터벌\n요파여밣여받여어밤밣따빠밣";
+var code = "#!\n아밯빠발타불ㅇ만든사람스낵\n뫃어어차뿌텨ㅇㅇ알오티십삼\n오북떠벎벍뫃봌토범더벌뿌뚜\n뿌다쟈우차빠밞밞따발다발두\n요빠여어밗우더범더벎차뿌져\n뜌벅떠불떠유뱛유땨뗘벅밞붊\n요토여두여차뿌져더벓더벓떠\n븀밞뵶불뵮유뵳야뚜발타자우\n요뽀여두여아여밣여뚜처붊여\n탸초주져뵮뻐어파여더범더밣\n요어야투야볆차빠밣밣따박뚜\n토벓터벎유오처우여뚜져터벌\n요파여밣여받여어밤밣따빠밣";
 
-code_to_table(code, $(".code"));
+init(code);
 
 });
 
 </script>
 </head>
 <body>
-	<table class="code"></table>
+	<table class="code"></table><br><br>
 	<table class="store"></table>
 </body>
 </html>

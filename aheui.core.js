@@ -2,6 +2,7 @@ var _code;
 var _status = false, _x=0, _y=0, _mx=0, _my=1, _px=0, _py=0;
 var _store = {}, _store_now = " ";
 var _input_buffer = "";
+var _onprint;
 
 function _init_store() {
 	for(var i in _jong) {
@@ -10,7 +11,7 @@ function _init_store() {
 	}
 }
 
-function _init(code) {
+function _init(code, onprint) {
 	_status = false;
 	_x = _y = _mx = _px = _py = 0;
 	_my = 1;
@@ -22,6 +23,7 @@ function _init(code) {
 	for(var y in _code) _code[y] = _code[y].split("");
 
 	_init_store();
+	_onprint = onprint;
 
 	_status = true;
 }
@@ -52,7 +54,7 @@ function _read() {
 }
 
 function _write(value) {
-	console.log(value);
+	_onprint(value);
 }
 
 function _insert_to_store(value) {

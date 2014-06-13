@@ -11,8 +11,18 @@
 <div class="container">
 <div class="top">
 	<div class="brand">aheui.js</div>
-	<div class="controls">
-		<span class="button">코드 준비</span>
+	<div class="controls-left show-before">
+		<span class="button ctrl-init">코드 준비</span>
+	</div>
+	<div class="controls-left show-after">
+		<span class="button ctrl-run">실행</span>
+		<span class="button ctrl-stop">정지</span>
+		<span class="button ctrl-step">한 단계씩</span>
+		<span class="button ctrl-reset">초기화</span>
+	</div>
+	<div class="controls-right">
+		<span class="button ctrl-help">도움말</span>
+		<span class="button"><a href="http://github.com/Snack-X/aheui.js" target="_blank">GitHub</a></span>
 	</div>
 </div>
 <div class="bottom">
@@ -23,11 +33,13 @@
 		</div>
 		<div class="window output">
 			<span class="label">출력</span>
+			<pre></pre>
 		</div>
 	</div>
 	<div class="right">
 		<div class="window store">
 			<span class="label">저장 공간</span>
+			<table></table>
 		</div>
 	</div>
 </div>

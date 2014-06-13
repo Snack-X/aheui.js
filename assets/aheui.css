@@ -7,6 +7,10 @@ html, body, .container {
 	width: 100%;
 	height: 100%;
 }
+a {
+	color: #55f;
+	text-decoration: none;
+}
 
 .top {
 	height: 40px;
@@ -15,26 +19,32 @@ html, body, .container {
 }
 
 .brand {
-	display: inline-block;
+	float: left;
 	width: 100px;
 	height: 100%;
 	font-size: 20px;
 	text-align: center;
 }
 
-.controls {
-	display: inline-block;
-	height: 36px;
+.controls-left, .controls-right {
+	height: 100%;
+}
+
+.controls-left {
 	margin-left: 30px;
-	border: 1px solid #888;
-	border-top: 0; border-bottom: 0;
+	float: left;
+}
+
+.controls-right {
+	margin-right: 10px;
+	float: right;
 }
 
 .button {
-	display: inline-block;
+	float: left;
 	padding: 0 5px;
 	height: 100%;
-	border-right: 1px solid #888;
+	border-left: 1px solid #888;
 	cursor: pointer;
 }
 
@@ -42,7 +52,10 @@ html, body, .container {
 	background: rgba(0, 0, 0, 0.05);
 }
 
-.controls .button:last-child { border-right: 0; }
+.controls-left .button:last-child,
+.controls-right .button:last-child { border-right: 1px solid #888; }
+
+.show-after { display: none; }
 
 .bottom { height: calc(100% - 40px); }
 
@@ -64,9 +77,6 @@ html, body, .container {
 .window {
 	width: 100%;
 	padding: 5px;
-}
-
-.output, .store {
 	overflow: scroll;
 }
 
@@ -103,7 +113,7 @@ html, body, .container {
 
 .code textarea {
 	width: 100%;
-	height: 100%;
+	height: 99%;
 	font-family: "나눔고딕코딩", "돋움체", Consolas, monospace;
 	font-size: 13px;
 	resize: none;
@@ -111,4 +121,19 @@ html, body, .container {
 	overflow-x: scroll;
 	overflow-y: scroll;
 	overflow: -moz-scrollbars-vertical;
+}
+
+.code table tr, .store table tr { height: 20px; }
+.code table tr td, .store table tr td {
+	border: 1px solid #aaa;
+	text-align: center;
+	vertical-align: middle;
+	font-size: 15px;
+	line-height: 20px;
+}
+.code table tr td { width: 20px; }
+.store table tr td { padding: 0 5px; }
+
+.code table tr td.active, .store table tr td.active {
+	background: #ffaaaa;
 }

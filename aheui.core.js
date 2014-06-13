@@ -11,6 +11,13 @@ function _init_store() {
 }
 
 function _init(code) {
+	_status = false;
+	_x = _y = _mx = _px = _py = 0;
+	_my = 1;
+	_store = {};
+	_store_now = " ";
+	_input_buffer = "";
+
 	_code = code.split("\n");
 	for(var y in _code) _code[y] = _code[y].split("");
 

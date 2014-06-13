@@ -1,0 +1,114 @@
+* {
+	-webkit-box-sizing: border-box;
+	   -moz-box-sizing: border-box;
+	        box-sizing: border-box;
+}
+html, body, .container {
+	width: 100%;
+	height: 100%;
+}
+
+.top {
+	height: 40px;
+	line-height: 40px;
+	background: #efefef;
+}
+
+.brand {
+	display: inline-block;
+	width: 100px;
+	height: 100%;
+	font-size: 20px;
+	text-align: center;
+}
+
+.controls {
+	display: inline-block;
+	height: 36px;
+	margin-left: 30px;
+	border: 1px solid #888;
+	border-top: 0; border-bottom: 0;
+}
+
+.button {
+	display: inline-block;
+	padding: 0 5px;
+	height: 100%;
+	border-right: 1px solid #888;
+	cursor: pointer;
+}
+
+.button:hover {
+	background: rgba(0, 0, 0, 0.05);
+}
+
+.controls .button:last-child { border-right: 0; }
+
+.bottom { height: calc(100% - 40px); }
+
+.left, .right {
+	height: 100%;
+	float: left;
+}
+
+.left {
+	width: 55%;
+	border-right: 1px solid black;
+}
+
+.right {
+	width: 45%;
+	border-left: 1px solid black;
+}
+
+.window {
+	width: 100%;
+	padding: 5px;
+}
+
+.output, .store {
+	overflow: scroll;
+}
+
+.code {
+	height: 60%;
+	border-bottom: 1px solid black;
+}
+
+.output {
+	height: 40%;
+	border-top: 1px solid black;
+}
+
+.store {
+	height: 100%;
+}
+
+.label {
+	position: absolute;
+	margin-top: 3px;
+	padding: 2px;
+	opacity: 0;
+	color: #777;
+	background: #fff;
+	border: 1px solid #ddd;
+	border-radius: 1px;
+	transition: opacity 0.2s;
+}
+
+.window:hover .label { opacity: 0.8; }
+.code .label { right: calc(45% + 8px); }
+.output .label { right: calc(45% + 4px); }
+.store .label { right: 4px; }
+
+.code textarea {
+	width: 100%;
+	height: 100%;
+	font-family: "나눔고딕코딩", "돋움체", Consolas, monospace;
+	font-size: 13px;
+	resize: none;
+	overflow: scroll;
+	overflow-x: scroll;
+	overflow-y: scroll;
+	overflow: -moz-scrollbars-vertical;
+}

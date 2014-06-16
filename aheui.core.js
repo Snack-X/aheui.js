@@ -77,8 +77,8 @@ function _step(before_step, after_step) {
 
 	var ch = _code[_y][_x];
 	var syl = _han_disassemble(ch);
-	var force_return = false;
-	var force_reverse = false;
+	var d_return = false;
+	var d_reverse = false;
 
 	// 올바른 글자가 아닐 경우
 	if(syl === false) {
@@ -90,16 +90,18 @@ function _step(before_step, after_step) {
 	// ㅎ = 끝냄
 	if(syl.cho == "ㅎ") {
 		_status = false;
+
+		return;
 	}
 
 	// 뽑아내는 명령일 때 저장 공간에 값이 모자라는지 체크 후 모자라면 반대 방향으로
 	if("ㄷㄸㅌㄴㄹㅈ".indexOf(syl.cho) >= 0) {
 		// 저장 공간에 값이 두 개 필요함
-		if(_store[_store_now].length < 2) force_return = true;
+		if(_store[_store_now].length < 2) force_reverse = true;
 	}
 	else if("ㅁㅊ".indexOf(syl.cho) >= 0) {
 		// 저장 공간에 값이 한 개 필요함
-		if(_store[_store_now].length < 1) force_return = true;
+		if(_store[_store_now].length < 1) force_reverse = true;
 	}
 
 	// ㅁ = 뽑기
@@ -140,15 +142,15 @@ function _step(before_step, after_step) {
 	}
 	// ㅍ = 바꿔치기
 	else if(syl.cho == "ㅍ") {
-		var swap_v1 = _store[_store_now].pop();
-		var swap_v2 = _store[_store_now].pop();
+		var swap_v1 = _get_from_store();
+		var swap_v2 = _get_from_store();
 		if(_store_now == "ㅇ") {
-			_store[_store_now].unshift(swap_v2);
 			_store[_store_now].unshift(swap_v1);
+			_store[_store_now].unshift(swap_v2);
 		}
 		else {
-			_store[_store_now].push(swap_v2);
 			_store[_store_now].push(swap_v1);
+			_store[_store_now].push(swap_v2);
 		}
 	}
 	// ㄷ = 덧셈
@@ -202,7 +204,7 @@ function _step(before_step, after_step) {
 		case "ㅛ": _mx =  0; _my = -2; break;
 		case "ㅜ": _mx =  0; _my =  1; break;
 		case "ㅠ": _mx =  0; _my =  2; break;
-		case "ㅢ": _mx = _px - _x; _my = _py - _y; break;
+		case "ㅢ": d_return = true; break;
 		case "ㅡ":
 			if(_my === 0) _mx = (_mx > 0) ? 1 : -1;
 			else _my = _py - _y;
@@ -213,11 +215,11 @@ function _step(before_step, after_step) {
 			break;
 	}
 
-	if(force_return) {
+	if(d_return) {
 		_mx = _px - _x;
 		_my = _py - _y;
 	}
-	else if(force_reverse) {
+	else if(d_reverse) {
 		_mx = -_mx;
 		_my = -_my;
 	}

@@ -38,8 +38,15 @@ $(function() {
 	});
 
 	$(".ctrl-reset").click(function() {
+		if(typeof __run == "number") {
+			clearInterval(__run);
+			__run = undefined;
+		}
+
 		$(".code table").remove();
 		$(".code").append($("<textarea>").val(__temp_code));
+		$(".output pre").html("");
+		$(".store table").html("");
 
 		$(".show-after").hide();
 		$(".show-before").show();

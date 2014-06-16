@@ -6,11 +6,12 @@ $(function() {
 
 		$(".code textarea").remove();
 		$(".code").append($("<table>"));
-		code_to_table(__temp_code, $(".code table"));
 
 		_init(__temp_code, function(v) {
 			$(".output pre").append(v);
 		});
+
+		code_to_table($(".code table"));
 
 		$(".show-before").hide();
 		$(".show-after").show();
@@ -65,22 +66,16 @@ function step() {
 	_step(before, after);
 }
 
-function code_to_table(code, table) {
-	var max_length = 0;
-
+function code_to_table(table) {
 	table.html("");
 
-	code = code.split("\n");
-
-	for(var y in code) {
-		code[y] = code[y].split("");
+	for(var y in _code) {
 		var $tr = $("<tr>");
-		if(max_length < code[y].length) max_length = code[y].length;
-		for(var x in code[y]) {
-			$tr.append($("<td>" + code[y][x] + "</td>"));
+		for(var x in _code[y]) {
+			$tr.append($("<td>" + _code[y][x] + "</td>"));
 		}
 		table.append($tr);
-		table.css("width", 20 * max_length);
+		table.css("width", 20 * _code[0].length);
 	}
 }
 

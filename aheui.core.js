@@ -19,8 +19,20 @@ function _init(code, onprint) {
 	_store_now = " ";
 	_input_buffer = "";
 
+	var max_line_length = 0;
 	_code = code.split("\n");
-	for(var y in _code) _code[y] = _code[y].split("");
+	for(var y in _code) {
+		_code[y] = _code[y].split("");
+		if(_code[y].length > max_line_length) {
+			max_line_length = _code[y].length;
+		}
+	}
+
+	for(y in _code) {
+		while(_code[y].length < max_line_length) {
+			_code[y].push("");
+		}
+	}
 
 	_init_store();
 	_onprint = onprint;
@@ -33,6 +45,22 @@ function _move_cursor() {
 	_py = _y;
 	_x += _mx;
 	_y += _my;
+
+	if(_y < 0) {
+		_y = _code.length + _y;
+	}
+
+	if(_y >= _code.length) {
+		_y = _y - _code.length;
+	}
+
+	if(_x < 0) {
+		_x = _code[_y].length + _x;
+	}
+
+	if(_x >= _code[_y].length) {
+		_x = _x - _code[_y].length;
+	}
 }
 
 function _read() {

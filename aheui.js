@@ -85,9 +85,19 @@ function code_to_table(table) {
 }
 
 function display_current() {
-	var active = $(".code table tr td.active");
-	if(active !== null) active.classList.remove("active");
-	$(".code table tr:nth-child(" + (_y+1) + ") td:nth-child(" + (_x+1) + ")").classList.add("active");
+	var active_step = 5;
+	for(var i = active_step ; i >= 0 ; i--) {
+		var active = $(".code table tr td.active-" + i);
+
+		if(active !== null) {
+			active.classList.remove("active-" + i);
+			if(i < active_step) {
+				active.classList.add("active-" + (i + 1));
+			}
+		}
+	}
+
+	$(".code table tr:nth-child(" + (_y+1) + ") td:nth-child(" + (_x+1) + ")").classList.add("active-0");
 }
 
 function display_store() {

@@ -134,6 +134,11 @@ a {
 .code table tr td { width: 20px; }
 .store table tr td { padding: 0 5px; }
 
-.code table tr td.active, .store table tr td.active {
-	background: #ffaaaa;
-}
+.store table tr td.active { background: #ffa0a0; }
+
+.code table tr td.active-0 { background: #ff9999; }
+.code table tr td.active-1 { background: #ffaaaa; }
+.code table tr td.active-2 { background: #ffbbbb; }
+.code table tr td.active-3 { background: #ffcccc; }
+.code table tr td.active-4 { background: #ffdddd; }
+.code table tr td.active-5 { background: #ffeeee; }

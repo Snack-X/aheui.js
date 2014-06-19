@@ -1,58 +1,61 @@
 var __temp_code, __run;
 
-$(function() {
-	$(".ctrl-init").click(function() {
-		__temp_code = $(".code textarea").val();
+var $ = document.querySelector.bind(document);
+var $$ = document.createElement.bind(document);
 
-		$(".code textarea").remove();
-		$(".code").append($("<table>"));
+$(".ctrl-init").onclick = function() {
+	__temp_code = $(".code textarea").value;
 
-		_init(__temp_code, function(v) {
-			$(".output pre").append(v);
-		});
+	$(".code textarea").remove();
+	$(".code").appendChild($$("table"));
 
-		code_to_table($(".code table"));
-
-		$(".show-before").hide();
-		$(".show-after").show();
+	_init(__temp_code, function(v) {
+		$(".output pre").innerHTML += v;
 	});
 
-	$(".ctrl-run").click(function() {
-		if(typeof __run == "undefined") {
-			__run = setInterval(step, 0);
-		}
-	});
+	code_to_table($(".code table"));
 
-	$(".ctrl-stop").click(function() {
-		if(typeof __run == "number") {
-			clearInterval(__run);
-			__run = undefined;
-		}
-	});
+	$(".show-before").style.display = "none";
+	$(".show-after").style.display = "block";
+};
 
-	$(".ctrl-step").click(function() {
-		if(typeof __run == "number") {
-			clearInterval(__run);
-			__run = undefined;
-		}
-		step();
-	});
+$(".ctrl-run").onclick = function() {
+	if(typeof __run == "undefined") {
+		__run = setInterval(step, 0);
+	}
+};
 
-	$(".ctrl-reset").click(function() {
-		if(typeof __run == "number") {
-			clearInterval(__run);
-			__run = undefined;
-		}
+$(".ctrl-stop").onclick = function() {
+	if(typeof __run == "number") {
+		clearInterval(__run);
+		__run = undefined;
+	}
+};
 
-		$(".code table").remove();
-		$(".code").append($("<textarea>").val(__temp_code));
-		$(".output pre").html("");
-		$(".store table").html("");
+$(".ctrl-step").onclick = function() {
+	if(typeof __run == "number") {
+		clearInterval(__run);
+		__run = undefined;
+	}
+	step();
+};
 
-		$(".show-after").hide();
-		$(".show-before").show();
-	});
-});
+$(".ctrl-reset").onclick = function() {
+	if(typeof __run == "number") {
+		clearInterval(__run);
+		__run = undefined;
+	}
+
+	$(".code table").remove();
+	var ta = $$("textarea");
+	ta.value = __temp_code;
+	$(".code").appendChild(ta);
+	$(".output pre").innerHTML = "";
+	$(".store table").innerHTML = "";
+
+	$(".show-after").style.display = "none";
+	$(".show-before").style.display = "block";
+};
 
 function step() {
 	var before = function() {
@@ -67,39 +70,47 @@ function step() {
 }
 
 function code_to_table(table) {
-	table.html("");
+	table.innerHTML = "";
 
 	for(var y in _code) {
-		var $tr = $("<tr>");
+		var tr = $$("tr");
 		for(var x in _code[y]) {
-			$tr.append($("<td>" + _code[y][x] + "</td>"));
+			var td = $$("td");
+			td.innerHTML = _code[y][x];
+			tr.appendChild(td);
 		}
-		table.append($tr);
-		table.css("width", 20 * _code[0].length);
+		table.appendChild(tr);
+		table.style.width = (20 * _code[0].length) + "px";
 	}
 }
 
 function display_current() {
-	$(".code table tr td").removeClass("active");
-	$(".code table tr:nth-child(" + (_y+1) + ") td:nth-child(" + (_x+1) + ")").addClass("active");
+	var active = $(".code table tr td.active");
+	if(active !== null) active.classList.remove("active");
+	$(".code table tr:nth-child(" + (_y+1) + ") td:nth-child(" + (_x+1) + ")").classList.add("active");
 }
 
 function display_store() {
-	$(".store table").html("");
+	$(".store table").innerHTML = "";
 
 	for(var n in _store) {
 		var s = _store[n];
-		var $tr = $("<tr>");
+		var tr = $$("tr");
 
-		$tr.append("<td class='storename'>" + n + "</td>");
-		if(_store_now == n) $tr.find(".storename").addClass("active");
+		var td = $$("td");
+		td.classList.add("storename");
+		td.innerHTML = n;
+		tr.appendChild(td);
+		if(_store_now == n) tr.querySelector(".storename").classList.add("active");
 
 		if(s.length !== 0) {
 			for(var i=0 ; i < s.length ; i++) {
-				$tr.append("<td>" + s[i] + "</td>");
+				var std = $$("td");
+				std.innerHTML = s[i];
+				tr.appendChild(std);
 			}
 		}
 
-		$(".store table").append($tr);
+		$(".store table").appendChild(tr);
 	}
 }

@@ -147,12 +147,19 @@ function _step(before_step, after_step) {
 	else if(syl.cho == "ㅂ") {
 		var jong_v = _jong.indexOf(syl.jong);
 		var ins_v = _jongval[jong_v];
+		var r;
 
 		if(syl.jong == "ㅇ") {
-			ins_v = parseInt(_read(), 10);
+			r = _read();
+			if(_status === false) return;
+
+			ins_v = parseInt(r, 10);
 		}
 		else if(syl.jong == "ㅎ") {
-			ins_v = _read().charCodeAt(0);
+			r = _read();
+			if(_status === false) return;
+
+			ins_v = r.charCodeAt(0);
 		}
 
 		_insert_to_store(ins_v);
@@ -220,7 +227,7 @@ function _step(before_step, after_step) {
 	else if(syl.cho == "ㅊ") {
 		var cond_v = _get_from_store();
 
-		if(cond_v === 0) force_reverse = true;
+		if(cond_v === 0) d_reverse = true;
 	}
 
 	switch(syl.jung) {

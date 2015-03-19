@@ -63,13 +63,17 @@ function _move_cursor() {
 	}
 }
 
-function _read() {
+function _read(read_number) {
 	if(_input_buffer === "") {
 		_input_buffer = prompt("입력하세요 (종료하려면 취소를 누르세요.)");
 
 		if(_input_buffer === null) {
 			_status = false;
 			return;
+		}
+		
+		if(read_number === true) {
+			return parseInt(_input_buffer, 10)
 		}
 
 		_input_buffer += "\n";
@@ -150,7 +154,7 @@ function _step(before_step, after_step) {
 		var r;
 
 		if(syl.jong == "ㅇ") {
-			r = _read();
+			r = _read(true);
 			if(_status === false) return;
 
 			ins_v = parseInt(r, 10);
